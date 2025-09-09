@@ -47,7 +47,7 @@ const Projects = () => {
     {
       title: 'Predictive Analytics Platform',
       description: 'Machine learning platform for business forecasting and insights with interactive dashboards and automated model selection. Features Tree of Thoughts for intelligent predictions, React-based visualization interface, async data processing, and comprehensive analytics with real-time monitoring and automated reporting.',
-      tech: ['ML Pipelines', 'LLMs', 'Reinforcement Learning', 'ReAct', 'ToT', 'NLP', 'RAG', 'Scikit-learn', 'Pandas', 'Streamlit', 'PostgreSQL', 'AWS']
+      tech: ['ML Pipelines', 'LLMs', 'Reinforcement Learning', 'ReAct', 'ToT', 'NLP', 'RAG', 'Scikit-learn', 'Pandas', 'Streamlit', 'PostgreSQL', 'AWS'],
       gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
       github: 'https://github.com/shubhaml4843/predictive-analytics',
     }
