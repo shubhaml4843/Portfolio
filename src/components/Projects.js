@@ -10,52 +10,46 @@ const Projects = () => {
 
   const projects = [
     {
-      title: 'AI Chatbot Assistant',
-      description: 'Intelligent conversational AI using transformer models and NLP techniques for customer support automation.',
-      tech: ['Python', 'Transformers', 'FastAPI', 'React', 'Docker'],
+      title: 'NeuroAct AI 🧠',
+      description: 'Advanced AI workflow automation platform that intelligently coordinates specialized agents to execute complex tasks in parallel. Built with LangGraph for orchestration, NetworkX for dependency management, and reinforcement learning for continuous optimization. Features multi-agent communication protocol (MCP), RAG-based memory system, and local LLM integration with Ollama. Reduces AI development cycles by 3-5x through intelligent parallel execution and adaptive learning.',
+      tech: ['LLMs', 'Multi-Agent Systems', 'Reinforcement Learning', 'ReAct', 'ToT', 'NLP', 'RAG', 'ML Pipelines', 'Deep Learning', 'Computer Vision', 'LoRA', 'QLoRA'],
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      github: 'https://github.com/shubhamlokare/ai-chatbot',
-      
+      github: 'https://github.com/shubhaml4843/NeuroAct-AI',
+    },
+    {
+      title: 'LangChain RAG System',
+      description: 'Enterprise-grade Retrieval-Augmented Generation system using advanced vector databases and semantic search for intelligent document processing. Features Tree of Thoughts reasoning, context-aware responses, conversation memory, and real-time knowledge retrieval. Built with microservices architecture and React dashboard for monitoring and analytics.',
+      tech: ['LLMs', 'RAG', 'NLP', 'ReAct', 'ToT', 'ML Pipelines', 'Deep Learning', 'Fine-tuning', 'LangChain', 'ChromaDB', 'FAISS', 'OpenAI'],
+      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+      github: 'https://github.com/shubhaml4843/langchain-rag',
     },
     {
       title: 'Computer Vision System',
-      description: 'Real-time object detection and classification system using deep learning for industrial quality control.',
-      tech: ['OpenCV', 'YOLO', 'TensorFlow', 'Flask', 'AWS'],
-      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      github: 'https://github.com/shubhamlokare/cv-system',
-      
-    },
-    {
-      title: 'Predictive Analytics Platform',
-      description: 'Machine learning platform for business forecasting and insights with interactive dashboards.',
-      tech: ['Scikit-learn', 'Pandas', 'Streamlit', 'AWS', 'PostgreSQL'],
+      description: 'Real-time object detection and classification system using YOLO and deep learning for industrial quality control. Features parallel processing with AsyncIO, automated monitoring, Tree of Thoughts for decision making, and React-based dashboard for real-time visualization and control with comprehensive analytics.',
+      tech: ['Computer Vision', 'Deep Learning', 'ML Pipelines', 'ReAct', 'ToT', 'NLP', 'YOLO', 'OpenCV', 'PyTorch', 'TensorFlow', 'AWS', 'Docker'],
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      github: 'https://github.com/shubhamlokare/predictive-analytics',
-      
-    },
-    {
-      title: 'NLP Sentiment Analyzer',
-      description: 'Advanced sentiment analysis using BERT and custom models for social media monitoring.',
-      tech: ['BERT', 'PyTorch', 'Hugging Face', 'Docker', 'MongoDB'],
-      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      github: 'https://github.com/shubhamlokare/sentiment-analyzer',
-      
+      github: 'https://github.com/shubhaml4843/cv-system',
     },
     {
       title: 'MLOps Pipeline',
-      description: 'End-to-end MLOps pipeline for model deployment, monitoring, and continuous integration.',
-      tech: ['MLflow', 'Kubernetes', 'Jenkins', 'Prometheus', 'Grafana'],
-      gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-      github: 'https://github.com/shubhamlokare/mlops-pipeline',
-      
+      description: 'End-to-end machine learning operations pipeline with automated model training, deployment, monitoring, and continuous integration. Features Tree of Thoughts for model selection, React-based monitoring dashboard, async processing, and comprehensive DevOps integration with fault tolerance and scalability.',
+      tech: ['ML Pipelines', 'LLMs', 'Multi-Agent Systems', 'ReAct', 'ToT', 'Deep Learning', 'MLflow', 'Kubernetes', 'Docker', 'Jenkins', 'Prometheus', 'Grafana'],
+      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+      github: 'https://github.com/shubhaml4843/mlops-pipeline',
     },
     {
-      title: 'Recommendation Engine',
-      description: 'Collaborative filtering recommendation system for e-commerce with real-time personalization.',
-      tech: ['Apache Spark', 'Kafka', 'Redis', 'Python', 'Elasticsearch'],
+      title: 'NLP Sentiment Analyzer',
+      description: 'Advanced sentiment analysis using BERT and transformer models for social media monitoring and customer feedback analysis. Features Tree of Thoughts reasoning for complex sentiment understanding, React dashboard for real-time analytics, async processing, and multi-language support with comprehensive NLP pipelines.',
+      tech: ['NLP', 'LLMs', 'Deep Learning', 'ReAct', 'ToT', 'Fine-tuning', 'BERT', 'Transformers', 'PyTorch', 'Hugging Face', 'LoRA', 'QLoRA'],
+      gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+      github: 'https://github.com/shubhaml4843/sentiment-analyzer',
+    },
+    {
+      title: 'Predictive Analytics Platform',
+      description: 'Machine learning platform for business forecasting and insights with interactive dashboards and automated model selection. Features Tree of Thoughts for intelligent predictions, React-based visualization interface, async data processing, and comprehensive analytics with real-time monitoring and automated reporting.',
+      tech: ['ML Pipelines', 'LLMs', 'Reinforcement Learning', 'ReAct', 'ToT', 'NLP', 'RAG', 'Scikit-learn', 'Pandas', 'Streamlit', 'PostgreSQL', 'AWS']
       gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-      github: 'https://github.com/shubhamlokare/recommendation-engine',
-      
+      github: 'https://github.com/shubhaml4843/predictive-analytics',
     }
   ];
 
