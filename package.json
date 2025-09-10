@@ -2,7 +2,7 @@
   "name": "shubham-portfolio",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://shubhaml4843.github.io/Personal-Website",
+  "homepage": "https://shubhaml4843.github.io/Portfolio",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
