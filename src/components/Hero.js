@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import EmailIcon from '@mui/icons-material/Email';
-import TwitterIcon from '@mui/icons-material/Twitter';
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState('');
@@ -199,7 +198,6 @@ const Hero = () => {
                 { icon: <LinkedInIcon />, href: 'https://linkedin.com/in/shubhamlokare-aiengineer', color: '#0A66C2' },
                 { icon: <GitHubIcon />, href: 'https://github.com/shubhaml4843', color: '#333' },
                 { icon: <EmailIcon />, href: 'mailto:shubhamlokare4843@gmail.com', color: '#EA4335' },
-                { icon: <TwitterIcon />, href: 'https://twitter.com/shubhamlokare', color: '#1DA1F2' }
               ].map((social, index) => (
                 <motion.div
                   key={index}

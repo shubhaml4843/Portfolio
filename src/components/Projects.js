@@ -10,48 +10,27 @@ const Projects = () => {
 
   const projects = [
     {
-      title: 'NeuroAct AI 🧠',
-      description: '🎯 Problem Solved: Built this to eliminate AI tool fragmentation where data scientists waste 85% of time switching between 8-15 different platforms, losing context and productivity. 🚀 My Solution: Engineered world\'s first RLHF-powered multi-agent system with 10 specialized AI agents (DataAgent, MLAgent, CodeAgent, etc.) orchestrated via LangGraph. Implemented ReAct + Tree of Thoughts reasoning for complex problem-solving. Single natural language query now handles complete end-to-end workflows - from data cleaning to model deployment with executive dashboards. Reduced typical 5-day AI projects to 30-second automated workflows with 95%+ success rate. Features continuous learning through human feedback, making the system smarter with every interaction.',
-      tech: ['LangGraph', 'RLHF', 'Multi-Agent Systems', 'ReAct', 'ToT', 'LLMs', 'RAG', 'Python', 'FastAPI', 'Ollama', 'OpenAI', 'Anthropic', 'NetworkX', 'FAISS', 'ChromaDB', 'AsyncIO', 'Pydantic', 'Transformers', 'LangChain', 'AutoML', 'MLOps', 'Docker', 'Microservices'],
+      title: 'DataSypane AI 🧠',
+      description: '🎯 Problem Solved: Built DataSynapse AI to eliminate AI tool fragmentation where data scientists waste 85% of time switching between 8-15 different platforms. 🚀 My Solution: Engineered production-ready multi-agent system with 10 specialized AI agents orchestrated via LangGraph with RLHF continuous learning. Features intelligent workflow automation, performance caching system (95% faster responses), and enterprise-grade scalability. Single query like "Build customer churn model with dashboard" automatically orchestrates DataAgent → MLAgent → ModelEvaluationAgent → VisualizationAgent in 30 seconds. Includes React frontend, FastAPI backend, Docker deployment, and comprehensive testing suite. System learns from user feedback and improves routing accuracy by 40% after 100 interactions.',
+      tech: ['LangGraph', 'RLHF', 'Multi-Agent Systems', 'ReAct', 'Python', 'FastAPI', 'Ollama', 'React', 'Docker', 'Pytest', 'AsyncIO', 'Pydantic', 'Pandas', 'Scikit-learn', 'TensorFlow', 'PyTorch', 'Matplotlib', 'Seaborn', 'RAG', 'LLMs', 'AutoML', 'Performance Caching', 'Enterprise Architecture', 'Microservices'],
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      github: 'https://github.com/shubhaml4843/NeuroAct-AI',
+      github: 'https://github.com/shubhaml4843/NeuroAct-AI_Project',
       demo: 'https://youtu.be/demo-video-link',
     },
     {
-      title: 'LangChain RAG System',
-      description: 'Enterprise-grade Retrieval-Augmented Generation system using advanced vector databases and semantic search for intelligent document processing. Features Tree of Thoughts reasoning, context-aware responses, conversation memory, and real-time knowledge retrieval. Built with microservices architecture and React dashboard for monitoring and analytics.',
-      tech: ['LangChain', 'ChromaDB', 'FAISS', 'OpenAI', 'ToT', 'ReAct', 'Streamlit', 'Docker', 'AsyncIO', 'FastAPI'],
+      title: 'Medical ChatBot 🏥',
+      description: '🎯 Problem Solved: Built AI-powered medical assistant to eliminate manual clinical report analysis bottlenecks where healthcare professionals spend 60% of time on paperwork instead of patient care. 🚀 My Solution: Engineered comprehensive medical chatbot with advanced RAG architecture using FAISS vector embeddings and BAAI/bge-large-en model for semantic search. Features intelligent diagnosis engine with treatment recommendations, automated PDF report generation, and multi-format clinical data processing (PDF, DOC, DOCX, JSON, CSV up to 50MB). Built interactive Flask web interface with real-time chat, session management, and professional medical report formatting. Processes clinical data in 2-5 seconds with HIPAA compliance, CUDA optimization, and local data processing for privacy. Includes comprehensive testing suite, error handling, and scalable architecture supporting multiple concurrent medical consultations.',
+      tech: ['Python', 'Flask', 'RAG', 'FAISS', 'NLP', 'Hugging Face', 'PyTorch', 'LangChain', 'OpenAI', 'PDF Processing', 'Medical AI', 'Clinical Data', 'Transformers', 'Vector Search', 'Healthcare', 'HIPAA Compliance'],
       gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      github: 'https://github.com/shubhaml4843/langchain-rag',
+      github: 'https://github.com/shubhaml4843/Medical_chatBot',
     },
     {
-      title: 'Computer Vision System',
-      description: 'Real-time object detection and classification system using YOLO and deep learning for industrial quality control. Features parallel processing with AsyncIO, automated monitoring, Tree of Thoughts for decision making, and React-based dashboard for real-time visualization and control with comprehensive analytics.',
-      tech: ['YOLO', 'OpenCV', 'PyTorch', 'TensorFlow', 'ToT', 'ReAct', 'Flask', 'AWS', 'AsyncIO', 'Docker'],
+      title: 'Radiology Object Detection 🩻',
+      description: '🎯 Problem Solved: Built advanced medical imaging system to automate radiology analysis where radiologists spend 70% of time on manual image interpretation, leading to diagnostic delays and human error. 🚀 My Solution: Engineered production-ready radiology detection system using YOLOv8 (You Only Look Once v8) for accurate object detection in medical images. Features high-performance FastAPI backend, interactive web UI for image upload and results visualization, and Docker containerization for seamless deployment. Integrates with Roboflow for custom dataset training and model management. Built modern web interface with real-time detection results, supports CUDA optimization for GPU acceleration, and includes comprehensive API documentation with Swagger UI. Processes radiology images with high accuracy and provides detailed detection annotations for medical professionals.',
+      tech: ['YOLOv8', 'FastAPI', 'Computer Vision', 'Medical Imaging', 'Docker', 'Roboflow', 'Python', 'JavaScript', 'HTML/CSS', 'CUDA', 'OpenCV', 'Pydantic', 'Uvicorn', 'Swagger UI', 'Healthcare AI', 'Deep Learning'],
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      github: 'https://github.com/shubhaml4843/cv-system',
-    },
-    {
-      title: 'MLOps Pipeline',
-      description: 'End-to-end machine learning operations pipeline with automated model training, deployment, monitoring, and continuous integration. Features Tree of Thoughts for model selection, React-based monitoring dashboard, async processing, and comprehensive DevOps integration with fault tolerance and scalability.',
-      tech: ['MLflow', 'Kubernetes', 'Docker', 'Jenkins', 'ToT', 'ReAct', 'Prometheus', 'Grafana', 'AsyncIO', 'FastAPI'],
-      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      github: 'https://github.com/shubhaml4843/mlops-pipeline',
-    },
-    {
-      title: 'NLP Sentiment Analyzer',
-      description: 'Advanced sentiment analysis using BERT and transformer models for social media monitoring and customer feedback analysis. Features Tree of Thoughts reasoning for complex sentiment understanding, React dashboard for real-time analytics, async processing, and multi-language support with comprehensive NLP pipelines.',
-      tech: ['BERT', 'Transformers', 'PyTorch', 'Hugging Face', 'ToT', 'ReAct', 'FastAPI', 'MongoDB', 'AsyncIO', 'Docker'],
-      gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-      github: 'https://github.com/shubhaml4843/sentiment-analyzer',
-    },
-    {
-      title: 'Predictive Analytics Platform',
-      description: 'Machine learning platform for business forecasting and insights with interactive dashboards and automated model selection. Features Tree of Thoughts for intelligent predictions, React-based visualization interface, async data processing, and comprehensive analytics with real-time monitoring and automated reporting.',
-      tech: ['Scikit-learn', 'Pandas', 'Streamlit', 'PostgreSQL', 'ToT', 'ReAct', 'AWS', 'Plotly', 'AsyncIO', 'FastAPI'],
-      gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-      github: 'https://github.com/shubhaml4843/predictive-analytics',
-    }
+      github: 'https://github.com/shubhaml4843/radiology_object_detection',
+    }   
   ];
 
   return (
