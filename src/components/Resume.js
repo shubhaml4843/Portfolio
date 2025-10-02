@@ -1,21 +1,21 @@
-    import React, { useState } from 'react';
-import { Box, Container, Typography, Card, CardContent, Button, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { Box, Container, Typography, Card, CardContent, Button } from '@mui/material';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import DownloadIcon from '@mui/icons-material/Download';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import CloseIcon from '@mui/icons-material/Close';
 
 const Resume = () => {
   const { ref, inView } = useInView({ threshold: 0.3, triggerOnce: true });
-  const [showFullResume, setShowFullResume] = useState(false);
 
   const handleDownload = () => {
-    // Simulate download
     const link = document.createElement('a');
-    link.href = '#';
+    link.href = process.env.PUBLIC_URL + '/resume/Shubham_Lokare_Resume.pdf.pdf';
     link.download = 'Shubham_Lokare_Resume.pdf';
-    alert('Resume download started!');
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -80,45 +80,40 @@ const Resume = () => {
                 <Typography variant="h5" color="text.secondary" gutterBottom>
                   AI Engineer & Data Scientist
                 </Typography>
+                <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
+                  shubhamlokare4843@gmail.com | +91 9130884843
+                </Typography>
               </Box>
 
               <Box sx={{ mb: 4 }}>
                 <Typography variant="h5" fontWeight={600} color="primary.main" gutterBottom>
-                  Experience
+                  Specializations
                 </Typography>
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="h6" fontWeight={600}>
-                    Senior AI Engineer
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary" gutterBottom>
-                    Tech Solutions Inc. | Jan 2022 - Present
-                  </Typography>
-                  <Box component="ul" sx={{ pl: 2, color: 'text.secondary' }}>
-                    <li>Developed 15+ ML models improving business efficiency by 40%</li>
-                    <li>Led AI team of 5 engineers on enterprise projects</li>
-                    <li>Implemented MLOps pipelines reducing deployment time by 60%</li>
-                  </Box>
+                <Box component="ul" sx={{ pl: 2, color: 'text.secondary' }}>
+                  <li>Multi-Agent AI Systems & LangGraph Orchestration</li>
+                  <li>Healthcare AI & Medical Imaging (RAG, Computer Vision)</li>
+                  <li>RLHF & Reinforcement Learning Implementation</li>
+                  <li>Production AI Deployment & MLOps</li>
                 </Box>
               </Box>
 
               <Box sx={{ mb: 4 }}>
                 <Typography variant="h5" fontWeight={600} color="primary.main" gutterBottom>
-                  Education
+                  Featured Projects
                 </Typography>
-                <Typography variant="h6" fontWeight={600}>
-                  M.Tech in Computer Science
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  Indian Institute of Technology, Mumbai | 2020
+                <Typography variant="body2" color="text.secondary">
+                  • DataSynapse AI - Multi-agent platform with RLHF learning<br/>
+                  • Medical ChatBot - RAG-powered clinical assistant<br/>
+                  • Radiology Detection - YOLOv8 medical imaging system
                 </Typography>
               </Box>
 
               <Box>
                 <Typography variant="h5" fontWeight={600} color="primary.main" gutterBottom>
-                  Key Skills
+                  Core Technologies
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {['Python', 'TensorFlow', 'PyTorch', 'AWS', 'Docker', 'Kubernetes'].map((skill) => (
+                  {['LangGraph', 'RLHF', 'Multi-Agent Systems', 'YOLOv8', 'RAG', 'FastAPI', 'Python', 'PyTorch', 'Docker', 'Healthcare AI'].map((skill) => (
                     <Box
                       key={skill}
                       sx={{
@@ -164,7 +159,7 @@ const Resume = () => {
                 variant="outlined"
                 size="large"
                 startIcon={<VisibilityIcon />}
-                onClick={() => setShowFullResume(true)}
+                onClick={() => window.open(process.env.PUBLIC_URL + '/resume/Shubham_Lokare_Resume.pdf.pdf', '_blank')}
                 sx={{
                   borderColor: 'primary.main',
                   color: 'primary.main',
@@ -175,109 +170,12 @@ const Resume = () => {
                   fontWeight: 600
                 }}
               >
-                View Full Resume
+                View PDF Resume
               </Button>
             </motion.div>
           </Box>
         </motion.div>
       </Container>
-
-      <Dialog
-        open={showFullResume}
-        onClose={() => setShowFullResume(false)}
-        maxWidth="md"
-        fullWidth
-        PaperProps={{
-          sx: {
-            backgroundColor: 'background.paper',
-            borderRadius: 4
-          }
-        }}
-      >
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h4" fontWeight={700}>
-            Complete Resume
-          </Typography>
-          <IconButton onClick={() => setShowFullResume(false)}>
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        
-        <DialogContent>
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Typography variant="h3" fontWeight={700} gutterBottom>
-              Shubham Lokare
-            </Typography>
-            <Typography variant="h5" color="text.secondary" gutterBottom>
-              AI Engineer & Data Scientist
-            </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap', mt: 2 }}>
-              <Typography variant="body1">shubham.lokare@example.com</Typography>
-              <Typography variant="body1">+91 98765 43210</Typography>
-              <Typography variant="body1">LinkedIn: /in/shubhamlokare</Typography>
-            </Box>
-          </Box>
-
-          <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" fontWeight={600} color="primary.main" gutterBottom>
-              Professional Summary
-            </Typography>
-            <Typography variant="body1" color="text.secondary" paragraph>
-              Experienced AI Engineer and Data Scientist with 3+ years of expertise in developing and deploying 
-              machine learning models, deep learning systems, and data-driven solutions. Proven track record of 
-              leading AI initiatives that drive business value and innovation.
-            </Typography>
-          </Box>
-
-          <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" fontWeight={600} color="primary.main" gutterBottom>
-              Experience
-            </Typography>
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" fontWeight={600}>
-                Senior AI Engineer
-              </Typography>
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                Tech Solutions Inc. | Jan 2022 - Present
-              </Typography>
-              <Box component="ul" sx={{ pl: 2, color: 'text.secondary' }}>
-                <li>Developed and deployed 15+ machine learning models improving operational efficiency by 40%</li>
-                <li>Led a team of 5 AI engineers on enterprise-level projects worth $2M+</li>
-                <li>Implemented MLOps pipelines using Docker, Kubernetes, and AWS, reducing deployment time by 60%</li>
-                <li>Built computer vision systems for quality control, achieving 95% accuracy</li>
-              </Box>
-            </Box>
-          </Box>
-
-          <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" fontWeight={600} color="primary.main" gutterBottom>
-              Education
-            </Typography>
-            <Typography variant="h6" fontWeight={600}>
-              M.Tech in Computer Science
-            </Typography>
-            <Typography variant="body1" color="text.secondary" gutterBottom>
-              Indian Institute of Technology, Mumbai | 2020
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Specialization: Artificial Intelligence and Machine Learning
-            </Typography>
-          </Box>
-
-          <Box>
-            <Typography variant="h5" fontWeight={600} color="primary.main" gutterBottom>
-              Certifications
-            </Typography>
-            <Box component="ul" sx={{ pl: 2, color: 'text.secondary' }}>
-              <li>AWS Certified Machine Learning - Specialty</li>
-              <li>Google Cloud Professional ML Engineer</li>
-              <li>Microsoft Azure AI Engineer Associate</li>
-              <li>Deep Learning Specialization - Coursera</li>
-              <li>TensorFlow Developer Certificate</li>
-            </Box>
-          </Box>
-        </DialogContent>
-      </Dialog>
     </Box>
   );
 };
