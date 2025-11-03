@@ -27,10 +27,10 @@ const Certificates = () => {
     },
     {
       title: 'Microsoft Power BI',
-      issuer: '360DigiTMG',
+      issuer: 'Microsoft',
       date: '2024',
-      type: 'Analytics Tool Certification',
-      color: '#F25022',
+      type: 'Analytics Certification',
+      color: '#0078D4',
       link: 'https://drive.google.com/file/d/1uBbFlsP96dI_JIJusyi_lSy97L0sITXM/view'
     }
   ];
