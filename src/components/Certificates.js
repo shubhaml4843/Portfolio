@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, Card, CardContent, Chip } from '@mui/material';
+import { Box, Container, Typography, Card, CardContent, Chip, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import SchoolIcon from '@mui/icons-material/School';
@@ -10,60 +10,28 @@ const Certificates = () => {
 
   const certificates = [
     {
-      title: 'AWS Certified Machine Learning - Specialty',
+      title: 'AWS Certified Machine Learning – Specialty',
       issuer: 'Amazon Web Services',
+      date: 'In Progress',
+      type: 'Cloud Certification',
+      color: '#FF9900',
+      link: null
+    },
+    {
+      title: 'Professional Program on Data Science and AI',
+      issuer: '360DigiTMG',
       date: '2024',
-      type: 'Cloud Certification',
-      color: '#FF9900'
+      type: 'Professional Program',
+      color: '#4285F4',
+      link: 'YOUR_360DIGITM_LINK_HERE'
     },
     {
-      title: 'Google Cloud Professional ML Engineer',
-      issuer: 'Google Cloud Platform',
-      date: '2023',
-      type: 'Cloud Certification',
-      color: '#4285F4'
-    },
-    {
-      title: 'Microsoft Azure AI Engineer Associate',
-      issuer: 'Microsoft Azure',
+      title: 'Microsoft Power BI',
+      issuer: 'Microsoft',
       date: '2024',
-      type: 'Cloud Certification',
-      color: '#0078D4'
-    },
-    {
-      title: 'Deep Learning Specialization',
-      issuer: 'Coursera - Andrew Ng',
-      date: '2023',
-      type: 'Online Course',
-      color: '#0056D3'
-    },
-    {
-      title: 'TensorFlow Developer Certificate',
-      issuer: 'TensorFlow',
-      date: '2023',
       type: 'Technical Certification',
-      color: '#FF6F00'
-    },
-    {
-      title: 'Machine Learning Engineering for Production',
-      issuer: 'Coursera - DeepLearning.AI',
-      date: '2024',
-      type: 'Specialization',
-      color: '#00D4AA'
-    },
-    {
-      title: 'Data Science Professional Certificate',
-      issuer: 'IBM',
-      date: '2022',
-      type: 'Professional Certificate',
-      color: '#1261FE'
-    },
-    {
-      title: 'Advanced Data Science with R',
-      issuer: 'Johns Hopkins University',
-      date: '2023',
-      type: 'University Course',
-      color: '#68217A'
+      color: '#F2C811',
+      link: 'YOUR_POWERBI_LINK_HERE'
     }
   ];
 
@@ -200,17 +168,35 @@ const Certificates = () => {
                     {cert.issuer}
                   </Typography>
                   
-                  <Chip
-                    label={cert.type}
-                    size="small"
-                    variant="outlined"
-                    sx={{
-                      borderColor: cert.color,
-                      color: cert.color,
-                      fontWeight: 500,
-                      mt: 1
-                    }}
-                  />
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+                    <Chip
+                      label={cert.type}
+                      size="small"
+                      variant="outlined"
+                      sx={{
+                        borderColor: cert.color,
+                        color: cert.color,
+                        fontWeight: 500
+                      }}
+                    />
+                    {cert.link && (
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => window.open(cert.link, '_blank')}
+                        sx={{
+                          borderColor: cert.color,
+                          color: cert.color,
+                          '&:hover': {
+                            backgroundColor: cert.color,
+                            color: 'white'
+                          }
+                        }}
+                      >
+                        View Certificate
+                      </Button>
+                    )}
+                  </Box>
                 </CardContent>
               </Card>
             </motion.div>

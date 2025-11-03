@@ -113,7 +113,7 @@ const Resume = () => {
                   Core Technologies
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {['LangGraph', 'RLHF', 'Multi-Agent Systems', 'YOLOv8', 'RAG', 'FastAPI', 'Python', 'PyTorch', 'Docker', 'Healthcare AI'].map((skill) => (
+                  {['Agentic Ai','Gen AI','LangGraph', 'RLHF', 'Multi-Agent Systems', 'YOLOv8', 'RAG', 'FastAPI', 'Python', 'PyTorch', 'Docker', 'Healthcare AI'].map((skill) => (
                     <Box
                       key={skill}
                       sx={{
