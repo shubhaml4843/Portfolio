@@ -10,61 +10,28 @@ const Certificates = () => {
 
   const certificates = [
     {
-      title: 'AWS Certified Machine Learning - Specialty',
-      issuer: 'Amazon Web Services',
-      date: '2024',
-      type: 'Cloud Certification',
-      color: '#FF9900'
-    },
-    {
-      title: 'Google Cloud Professional ML Engineer',
-      issuer: 'Google Cloud Platform',
-      date: '2023',
-      type: 'Cloud Certification',
-      color: '#4285F4'
-    },
-    {
-      title: 'Microsoft Azure AI Engineer Associate',
-      issuer: 'Microsoft Azure',
-      date: '2024',
-      type: 'Cloud Certification',
-      color: '#0078D4'
-    },
-    {
-      title: 'Deep Learning Specialization',
-      issuer: 'Coursera - Andrew Ng',
-      date: '2023',
-      type: 'Online Course',
-      color: '#0056D3'
-    },
-    {
-      title: 'TensorFlow Developer Certificate',
-      issuer: 'TensorFlow',
-      date: '2023',
-      type: 'Technical Certification',
-      color: '#FF6F00'
-    },
-    {
-      title: 'Machine Learning Engineering for Production',
-      issuer: 'Coursera - DeepLearning.AI',
-      date: '2024',
-      type: 'Specialization',
-      color: '#00D4AA'
-    },
-    {
-      title: 'Data Science Professional Certificate',
-      issuer: 'IBM',
-      date: '2022',
-      type: 'Professional Certificate',
-      color: '#1261FE'
-    },
-    {
-      title: 'Advanced Data Science with R',
-      issuer: 'Johns Hopkins University',
-      date: '2023',
-      type: 'University Course',
-      color: '#68217A'
-    }
+    title: 'AWS Certified Machine Learning – Specialty',
+    issuer: 'Amazon Web Services',
+    date: 'In Progress',
+    type: 'Cloud Certification',
+    color: '#FF9900'
+  },
+  {
+    title: 'Professional Program on Data Science and AI',
+    issuer: '360DigiTMG',
+    date: '2024',
+    type: 'Professional Program',
+    color: '#1E90FF',
+    link: 'https://drive.google.com/file/d/1AXgQcg-7FswPJm2aZp7T2SFBGckEQcuY/view'
+  },
+  {
+    title: 'Microsoft Power BI',
+    issuer: '360DigiTMG',
+    date: '2024',
+    type: 'Analytics Tool Certification',
+    color: '#F25022',
+    link: 'https://drive.google.com/file/d/1uBbFlsP96dI_JIJusyi_lSy97L0sITXM/view'
+  }
   ];
 
   return (
