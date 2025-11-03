@@ -22,16 +22,16 @@ const Certificates = () => {
       issuer: '360DigiTMG',
       date: '2024',
       type: 'Professional Program',
-      color: '#4285F4',
-      link: 'YOUR_360DIGITM_LINK_HERE'
+      color: '#1E90FF',
+      link: 'https://drive.google.com/file/d/1AXgQcg-7FswPJm2aZp7T2SFBGckEQcuY/view'
     },
     {
       title: 'Microsoft Power BI',
-      issuer: 'Microsoft',
+      issuer: '360DigiTMG',
       date: '2024',
-      type: 'Technical Certification',
-      color: '#F2C811',
-      link: 'YOUR_POWERBI_LINK_HERE'
+      type: 'Analytics Tool Certification',
+      color: '#F25022',
+      link: 'https://drive.google.com/file/d/1uBbFlsP96dI_JIJusyi_lSy97L0sITXM/view'
     }
   ];
 
