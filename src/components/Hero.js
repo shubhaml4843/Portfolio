@@ -1,348 +1,491 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Typography, Button, IconButton, Avatar, Stack } from '@mui/material';
+import { Box, Container, Typography, Button, IconButton, Stack, Chip } from '@mui/material';
 import { motion } from 'framer-motion';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import EmailIcon from '@mui/icons-material/Email';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import { palette, titleAccentText } from '../theme';
 
-const Hero = () => {
-  const [currentText, setCurrentText] = useState('');
-  const texts = ['Gen AI Engineer', 'AI Engineer', 'Data Scientist', 'ML Expert'];
-  const [textIndex, setTextIndex] = useState(0);
+const ROLES = ['Gen AI Engineer', 'Agentic AI Engineer', 'LLM & NLP Specialist', 'AI/ML Engineer'];
+
+const TYPE_MS = 62;    // per character while typing
+const ERASE_MS = 26;   // per character while clearing
+const HOLD_MS = 1700;  // dwell once a title is fully typed
+
+// Badges orbiting the AI core in the hero.
+const STACK = [
+  { label: 'Agentic AI', colour: '#34D399' },
+  { label: 'Gen AI', colour: '#22D3EE' },
+  { label: 'RAG', colour: '#A78BFA' },
+  { label: 'LangChain', colour: '#67E8F9' },
+  { label: 'LangGraph', colour: '#F0ABFC' },
+];
+
+// Credibility strip under the pitch.
+const PROOF = [
+  { value: '2+ yrs', label: 'full-time' },
+  { value: '10-agent', label: 'systems shipped' },
+  { value: '+28%', label: 'query accuracy' },
+];
+
+// Types a title out, holds it, clears it, then moves to the next. The caret
+// stays rendered throughout so the line never looks empty or broken.
+const useTypewriter = () => {
+  const [index, setIndex] = useState(0);
+  const [len, setLen] = useState(0);
+  const [phase, setPhase] = useState('typing');
 
   useEffect(() => {
-    let timeout;
-    const typeText = () => {
-      const text = texts[textIndex];
-      if (currentText.length < text.length) {
-        setCurrentText(text.slice(0, currentText.length + 1));
-        timeout = setTimeout(typeText, 150);
+    const full = ROLES[index];
+    let timer;
+
+    if (phase === 'typing') {
+      if (len < full.length) {
+        timer = setTimeout(() => setLen(len + 1), TYPE_MS);
       } else {
-        timeout = setTimeout(() => {
-          setCurrentText('');
-          setTextIndex((prev) => (prev + 1) % texts.length);
-        }, 2000);
+        setPhase('holding');
       }
-    };
-    timeout = setTimeout(typeText, 150);
-    return () => clearTimeout(timeout);
-  }, [currentText, textIndex]);
+    } else if (phase === 'holding') {
+      timer = setTimeout(() => setPhase('erasing'), HOLD_MS);
+    } else if (len > 0) {
+      timer = setTimeout(() => setLen(len - 1), ERASE_MS);
+    } else {
+      // no dwell at empty: roll straight into the next title
+      setIndex((i) => (i + 1) % ROLES.length);
+      setPhase('typing');
+    }
+
+    return () => clearTimeout(timer);
+  }, [index, len, phase]);
+
+  return { text: ROLES[index].slice(0, len), settled: phase === 'holding' };
+};
+
+const SOCIALS = [
+  { icon: <LinkedInIcon />, href: 'https://linkedin.com/in/shubhamlokare-aiengineer', label: 'LinkedIn' },
+  { icon: <GitHubIcon />, href: 'https://github.com/shubhaml4843', label: 'GitHub' },
+  { icon: <EmailIcon />, href: 'mailto:shubhamlokare4843@gmail.com', label: 'Email' },
+];
+
+const Hero = () => {
+  const { text: typed, settled } = useTypewriter();
 
   return (
     <Box
       component="section"
       id="home"
       sx={{
+        position: 'relative',
+        zIndex: 1,
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        background: 'radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 35%, #0a0a0a 100%)',
-        position: 'relative',
-        overflow: 'hidden'
+        overflowX: 'clip',
+        py: { xs: 12, md: 6 },
       }}
     >
-      {/* Floating Orbs */}
-      <motion.div
-        style={{
-          position: 'absolute',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(102, 126, 234, 0.4) 0%, transparent 70%)',
-          top: '10%',
-          left: '5%',
-          filter: 'blur(40px)'
-        }}
-        animate={{ y: [0, -30, 0], rotate: [0, 120, 240, 360] }}
-        transition={{ duration: 8, repeat: Infinity }}
-      />
-      <motion.div
-        style={{
-          position: 'absolute',
-          width: '300px',
-          height: '300px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(240, 147, 251, 0.3) 0%, transparent 70%)',
-          top: '60%',
-          right: '10%',
-          filter: 'blur(40px)'
-        }}
-        animate={{ y: [0, -25, 0], rotate: [0, -120, -240, -360] }}
-        transition={{ duration: 10, repeat: Infinity, delay: 2 }}
-      />
-      <motion.div
-        style={{
-          position: 'absolute',
-          width: '200px',
-          height: '200px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(118, 75, 162, 0.4) 0%, transparent 70%)',
-          bottom: '20%',
-          left: '20%',
-          filter: 'blur(40px)'
-        }}
-        animate={{ y: [0, -15, 0], rotate: [0, 180, 360] }}
-        transition={{ duration: 6, repeat: Infinity, delay: 4 }}
-      />
-      
-      <Container maxWidth="xl" sx={{ zIndex: 2 }}>
+      <Container maxWidth="lg">
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: { xs: '1fr', lg: '7fr 5fr' },
-            gap: 6,
+            gridTemplateColumns: { xs: '1fr', md: '1.15fr 0.85fr' },
+            gap: { xs: 6, md: 8 },
             alignItems: 'center',
-            color: 'white'
           }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <Box sx={{ mb: 3 }}>
-              <Typography
-                variant="h6"
-                sx={{
-                  color: '#667eea',
-                  fontWeight: 600,
-                  mb: 2,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  fontSize: { xs: '1rem', md: '1.2rem' }
-                }}
-              >
-                Welcome to my Portfolio
-              </Typography>
-              <Typography
-                variant="h1"
-                sx={{
-                  fontSize: { xs: '2rem', md: '2.5rem', lg: '3rem' },
-                  fontWeight: 700,
-                  mb: 1.5,
-                  lineHeight: 1.2,
-                  background: 'linear-gradient(135deg, #ffffff 0%, #667eea 50%, #f093fb 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }}
-              >
-                Hi, I'm{' '}
-                <Box component="span" sx={{ display: 'block', color: '#667eea' }}>
-                  Shubham Lokare
-                </Box>
-              </Typography>
-            </Box>
+            <Chip
+              label="Available for Gen AI / Agentic AI roles"
+              size="small"
+              sx={{
+                mb: 3,
+                px: 0.5,
+                color: palette.emerald,
+                backgroundColor: 'rgba(52, 211, 153, 0.10)',
+                border: '1px solid rgba(52, 211, 153, 0.28)',
+                fontWeight: 600,
+              }}
+            />
 
-            <Box sx={{ mb: 3, height: '80px', display: 'flex', alignItems: 'center' }}>
+            <Typography
+              variant="h1"
+              sx={{ fontSize: { xs: '2.6rem', sm: '3.4rem', md: '4rem' }, mb: 1.5 }}
+            >
+              <Box component="span" sx={{ color: palette.text, display: 'block' }}>
+                Shubham Lokare
+              </Box>
+            </Typography>
+
+            {/* Typed title: one character at a time, hold, clear, next. */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                height: { xs: 40, md: 54 },
+                mb: 3,
+              }}
+            >
               <Typography
                 variant="h2"
-                sx={{
-                  fontSize: { xs: '1.5rem', md: '2rem' },
-                  fontWeight: 700,
-                  background: 'linear-gradient(135deg, #667eea 0%, #f093fb 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }}
+                sx={{ fontSize: { xs: '1.35rem', md: '2rem' }, ...titleAccentText }}
               >
-                {currentText}
-                <Box component="span" sx={{ animation: 'blink 1s infinite', color: '#f093fb' }}>|</Box>
+                {typed}
               </Typography>
+              {/* caret: solid while typing, blinking once the title settles */}
+              <Box
+                component="span"
+                aria-hidden
+                sx={{
+                  width: '3px',
+                  height: { xs: '1.35rem', md: '2rem' },
+                  ml: '4px',
+                  flexShrink: 0,
+                  borderRadius: '1px',
+                  backgroundColor: '#f093fb',
+                  animation: settled ? 'heroCaret 1.05s steps(2, start) infinite' : 'none',
+                  '@keyframes heroCaret': {
+                    '0%, 100%': { opacity: 1 },
+                    '50%': { opacity: 0 },
+                  },
+                }}
+              />
             </Box>
 
             <Typography
               variant="body1"
               sx={{
                 mb: 4,
-                color: '#ffffff',
-                lineHeight: 1.6,
-                fontSize: { xs: '1rem', md: '1.2rem' },
-                maxWidth: '600px',
-                fontWeight: 400
+                maxWidth: 560,
+                color: palette.textMuted,
+                fontSize: { xs: '1rem', md: '1.08rem' },
               }}
             >
-              🚀 Passionate Gen AI Engineer & Agentic AI specialist in Machine Learning, 
-              Deep Learning, Gen AI, Data Science and creating intelligent solutions that transform businesses and drive innovation.
+              I build AI agents and multi-agent AI solutions that solve real problems and deliver
+              real business value — production RAG pipelines orchestrated with LangGraph and MCP,
+              measured on outcomes rather than demos.
             </Typography>
 
-            <Box sx={{ mb: 4 }}>
-              <motion.div whileHover={{ scale: 1.05, y: -3 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={() => window.open('tel:+919130884843', '_self')}
-                  sx={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    borderRadius: '50px',
-                    px: 4,
-                    py: 2,
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                    textTransform: 'none',
-                    boxShadow: '0 10px 30px rgba(102, 126, 234, 0.4)',
-                    '&:hover': {
-                      transform: 'translateY(-3px)',
-                      boxShadow: '0 15px 40px rgba(102, 126, 234, 0.6)'
-                    }
-                  }}
-                >
-                  Contact Me
-                </Button>
-              </motion.div>
-            </Box>
-
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-              <Typography variant="body1" sx={{ color: '#ffffff', mr: 2, fontWeight: 500 }}>
-                Connect with me:
-              </Typography>
-              {[
-                { icon: <LinkedInIcon />, href: 'https://linkedin.com/in/shubhamlokare-aiengineer', color: '#0A66C2' },
-                { icon: <GitHubIcon />, href: 'https://github.com/shubhaml4843', color: '#333' },
-                { icon: <EmailIcon />, href: 'mailto:shubhamlokare4843@gmail.com', color: '#EA4335' },
-                { icon: <TwitterIcon />, href: 'https://twitter.com/shubhamlokare', color: '#1DA1F2' }
-              ].map((social, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ scale: 1.2, y: -5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <IconButton
-                    component="a"
-                    href={social.href}
-                    target={social.href.startsWith('mailto:') ? '_self' : '_blank'}
-                    rel="noopener noreferrer"
+            {/* proof strip: concrete numbers before the visitor scrolls */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: { xs: 2, md: 3 },
+                mb: 4,
+                pb: 3,
+                borderBottom: `1px solid ${palette.borderSoft}`,
+                maxWidth: 560,
+              }}
+            >
+              {PROOF.map((p) => (
+                <Box key={p.label} sx={{ minWidth: 0 }}>
+                  <Typography
                     sx={{
-                      background: 'rgba(102, 126, 234, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(102, 126, 234, 0.3)',
-                      color: 'white',
-                      width: 60,
-                      height: 60,
-                      '&:hover': {
-                        background: 'rgba(240, 147, 251, 0.2)',
-                        borderColor: '#f093fb',
-                        boxShadow: '0 10px 25px rgba(240, 147, 251, 0.3)'
-                      }
+                      fontWeight: 750,
+                      fontSize: { xs: '1.05rem', md: '1.2rem' },
+                      lineHeight: 1.1,
+                      color: palette.text,
+                      letterSpacing: '-0.02em',
                     }}
                   >
-                    {social.icon}
-                  </IconButton>
-                </motion.div>
+                    {p.value}
+                  </Typography>
+                  <Typography sx={{ fontSize: '.7rem', color: palette.textMuted, mt: 0.3 }}>
+                    {p.label}
+                  </Typography>
+                </Box>
               ))}
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  px: 1.1,
+                  py: 0.45,
+                  borderRadius: 999,
+                  fontSize: '.7rem',
+                  fontWeight: 700,
+                  color: palette.emerald,
+                  backgroundColor: 'rgba(52,211,153,.1)',
+                  border: '1px solid rgba(52,211,153,.3)',
+                }}
+              >
+                <VerifiedIcon sx={{ fontSize: '.9rem' }} />
+                Microsoft Certified
+              </Box>
             </Box>
+
+            <Stack direction="row" spacing={2} sx={{ mb: 5, flexWrap: 'wrap', gap: 2 }}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                sx={{
+                  px: 3.5,
+                  py: 1.4,
+                  color: '#04121A',
+                  background: `linear-gradient(120deg, ${palette.cyan}, ${palette.emerald})`,
+                  boxShadow: '0 10px 34px rgba(34,211,238,.28)',
+                  '&:hover': { boxShadow: '0 14px 44px rgba(34,211,238,.42)' },
+                }}
+              >
+                View Projects
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                sx={{
+                  px: 3.5,
+                  py: 1.4,
+                  color: palette.text,
+                  borderColor: palette.border,
+                  '&:hover': { borderColor: palette.cyan, backgroundColor: 'rgba(34,211,238,.07)' },
+                }}
+              >
+                Get in Touch
+              </Button>
+            </Stack>
+
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <Typography variant="body2" sx={{ color: palette.textMuted, mr: 0.5 }}>
+                Connect
+              </Typography>
+              {SOCIALS.map((s) => (
+                <IconButton
+                  key={s.label}
+                  component="a"
+                  href={s.href}
+                  aria-label={s.label}
+                  target={s.href.startsWith('mailto:') ? '_self' : '_blank'}
+                  rel="noopener noreferrer"
+                  sx={{
+                    width: 46,
+                    height: 46,
+                    color: palette.textMuted,
+                    border: `1px solid ${palette.borderSoft}`,
+                    backgroundColor: 'rgba(13,18,32,.6)',
+                    transition: 'all .25s ease',
+                    '&:hover': {
+                      color: palette.cyan,
+                      borderColor: palette.cyan,
+                      transform: 'translateY(-3px)',
+                    },
+                  }}
+                >
+                  {s.icon}
+                </IconButton>
+              ))}
+            </Stack>
           </motion.div>
 
+          {/* Orbital core: badges ride a rotating ring, spokes tie them to the centre */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
+            transition={{ duration: 0.9, delay: 0.15, ease: 'easeOut' }}
             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           >
             <Box
               sx={{
                 position: 'relative',
-                width: { xs: '300px', md: '450px' },
-                height: { xs: '300px', md: '450px' },
+                width: { xs: 290, sm: 350, md: 430 },
+                height: { xs: 290, sm: 350, md: 430 },
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                flexShrink: 0,
               }}
             >
-              <motion.div
-                animate={{
-                  rotateY: [0, 5, 0, -5, 0],
-                  rotateX: [0, 2, 0, -2, 0]
+              {/* ambient bloom */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: '-10%',
+                  borderRadius: '50%',
+                  background: `radial-gradient(circle, ${palette.violet}22 0%, ${palette.cyan}11 45%, transparent 70%)`,
+                  filter: 'blur(18px)',
                 }}
-                transition={{ duration: 10, repeat: Infinity }}
-                style={{
+              />
+
+              {/* concentric guides */}
+              {[100, 74, 50].map((pct, i) => (
+                <Box
+                  key={pct}
+                  sx={{
+                    position: 'absolute',
+                    width: `${pct}%`,
+                    height: `${pct}%`,
+                    borderRadius: '50%',
+                    border: `1px ${i === 0 ? 'solid' : 'dashed'} rgba(148, 175, 224, ${i === 0 ? 0.12 : 0.07})`,
+                  }}
+                />
+              ))}
+
+              {/* sweeping scan arc, reads as an active system */}
+              <Box
+                component={motion.div}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
+                sx={{
+                  position: 'absolute',
                   width: '100%',
                   height: '100%',
-                  background: 'linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1))',
-                  backdropFilter: 'blur(30px)',
-                  borderRadius: '30px',
-                  border: '2px solid rgba(102, 126, 234, 0.3)',
+                  borderRadius: '50%',
+                  background: `conic-gradient(from 0deg, transparent 300deg, ${palette.cyan}00 320deg, ${palette.cyan}44 358deg, transparent 360deg)`,
+                  maskImage:
+                    'radial-gradient(circle, transparent 48%, #000 49%, #000 50%, transparent 51%)',
+                  WebkitMaskImage:
+                    'radial-gradient(circle, transparent 48%, #000 49%, #000 50%, transparent 51%)',
+                }}
+              />
+
+              {/* rotating assembly: spokes and badges turn as one */}
+              <Box
+                component={motion.div}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 44, repeat: Infinity, ease: 'linear' }}
+                sx={{ position: 'absolute', inset: 0 }}
+              >
+                <Box
+                  component="svg"
+                  viewBox="0 0 100 100"
+                  sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+                >
+                  {STACK.map((item, i) => {
+                    const a = ((-90 + i * (360 / STACK.length)) * Math.PI) / 180;
+                    return (
+                      <line
+                        key={item.label}
+                        x1={50 + 14 * Math.cos(a)}
+                        y1={50 + 14 * Math.sin(a)}
+                        x2={50 + 36 * Math.cos(a)}
+                        y2={50 + 36 * Math.sin(a)}
+                        stroke={item.colour}
+                        strokeWidth="0.35"
+                        strokeDasharray="2 2"
+                        opacity="0.5"
+                      />
+                    );
+                  })}
+                </Box>
+
+                {STACK.map((item, i) => {
+                  const a = ((-90 + i * (360 / STACK.length)) * Math.PI) / 180;
+                  const r = 36;
+                  return (
+                    <Box
+                      key={item.label}
+                      sx={{
+                        position: 'absolute',
+                        left: `${50 + r * Math.cos(a)}%`,
+                        top: `${50 + r * Math.sin(a)}%`,
+                        transform: 'translate(-50%, -50%)',
+                      }}
+                    >
+                      {/* counter-rotate so the label stays upright */}
+                      <Box
+                        component={motion.div}
+                        animate={{ rotate: -360 }}
+                        transition={{ duration: 44, repeat: Infinity, ease: 'linear' }}
+                      >
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 0.75,
+                            px: { xs: 1.1, md: 1.5 },
+                            py: { xs: 0.55, md: 0.75 },
+                            borderRadius: 999,
+                            whiteSpace: 'nowrap',
+                            fontSize: { xs: '.66rem', md: '.78rem' },
+                            fontWeight: 700,
+                            color: item.colour,
+                            backgroundColor: 'rgba(5, 7, 15, 0.9)',
+                            backdropFilter: 'blur(8px)',
+                            border: `1px solid ${item.colour}55`,
+                            boxShadow: `0 4px 18px rgba(0,0,0,.55), 0 0 16px ${item.colour}26`,
+                          }}
+                        >
+                          <Box
+                            component={motion.span}
+                            animate={{ opacity: [0.35, 1, 0.35] }}
+                            transition={{ duration: 2.2, repeat: Infinity, delay: i * 0.4 }}
+                            sx={{
+                              width: 5,
+                              height: 5,
+                              borderRadius: '50%',
+                              backgroundColor: item.colour,
+                              boxShadow: `0 0 8px ${item.colour}`,
+                              flexShrink: 0,
+                            }}
+                          />
+                          {item.label}
+                        </Box>
+                      </Box>
+                    </Box>
+                  );
+                })}
+              </Box>
+
+              {/* AI core */}
+              <Box
+                component={motion.div}
+                animate={{ scale: [1, 1.035, 1] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+                sx={{
+                  position: 'relative',
+                  zIndex: 2,
+                  width: '40%',
+                  height: '40%',
+                  borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 25px 50px rgba(102, 126, 234, 0.2)'
+                  fontSize: { xs: '3rem', md: '4.2rem' },
+                  background: `linear-gradient(145deg, ${palette.cyan} 0%, ${palette.violet} 52%, ${palette.emerald} 100%)`,
+                  border: '3px solid rgba(255,255,255,.16)',
+                  boxShadow: `0 0 70px ${palette.violet}66, inset 0 -14px 34px rgba(0,0,0,.28)`,
                 }}
               >
-                <Avatar
-                  sx={{
-                    width: { xs: 150, md: 200 },
-                    height: { xs: 150, md: 200 },
-                    fontSize: { xs: '4rem', md: '6rem' },
-                    background: 'linear-gradient(135deg, #667eea 0%, #f093fb 100%)',
-                    border: '4px solid rgba(255, 255, 255, 0.2)'
-                  }}
-                >
-                  🤖
-                </Avatar>
-
-                {/* Floating Gen AI Icons */}
-                {[
-                  { icon: '🧠', top: '10%', left: '10%', delay: 0 },
-                  { icon: '⚡', top: '10%', right: '10%', delay: 1 },
-                  { icon: '🔮', bottom: '10%', left: '10%', delay: 2 },
-                  { icon: '🚀', bottom: '10%', right: '10%', delay: 3 }
-                ].map((tech, index) => (
-                  <motion.div
-                    key={index}
-                    animate={{
-                      y: [0, -20, 0],
-                      rotate: [0, 10, 0]
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      delay: tech.delay
-                    }}
-                    style={{
-                      position: 'absolute',
-                      ...tech,
-                      width: '60px',
-                      height: '60px',
-                      background: 'rgba(102, 126, 234, 0.2)',
-                      backdropFilter: 'blur(10px)',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '1.5rem',
-                      border: '1px solid rgba(102, 126, 234, 0.3)'
-                    }}
-                  >
-                    {tech.icon}
-                  </motion.div>
-                ))}
-
-                <motion.div
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0.3, 0.6, 0.3]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    background: 'radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, transparent 70%)',
-                    borderRadius: '30px'
-                  }}
-                />
-              </motion.div>
+                🤖
+              </Box>
             </Box>
           </motion.div>
         </Box>
+
+        <Box
+          sx={{
+            display: { xs: 'none', md: 'flex' },
+            justifyContent: 'center',
+            mt: 8,
+          }}
+        >
+          <IconButton
+            aria-label="Scroll to About"
+            onClick={() => document.getElementById('summary')?.scrollIntoView({ behavior: 'smooth' })}
+            sx={{
+              color: palette.textMuted,
+              animation: 'floatDown 2.2s ease-in-out infinite',
+              '@keyframes floatDown': {
+                '0%,100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(8px)' },
+              },
+              '&:hover': { color: palette.cyan },
+            }}
+          >
+            <ArrowDownwardIcon />
+          </IconButton>
+        </Box>
       </Container>
-      <style jsx>{`
-        @keyframes blink {
-          0%, 50% { opacity: 1; }
-          51%, 100% { opacity: 0; }
-        }
-      `}</style>
     </Box>
   );
 };
