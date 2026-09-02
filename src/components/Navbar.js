@@ -1,44 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import {
+  AppBar, Toolbar, Typography, Button, Box, IconButton,
+  Drawer, List, ListItemButton, ListItemText, LinearProgress,
+} from '@mui/material';
 import { motion } from 'framer-motion';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import { palette, accentText } from '../theme';
+
+// Module scope so the scroll effect can depend on it without re-subscribing.
+const NAV_ITEMS = [
+  { id: 'home', label: 'Home' },
+  { id: 'summary', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'certificates', label: 'Certificates' },
+  { id: 'resume', label: 'Resume' },
+  { id: 'contact', label: 'Contact' },
+];
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'certificates', label: 'Certificates' },
-    { id: 'resume', label: 'Resume' },
-    { id: 'contact', label: 'Contact' }
-  ];
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-      
-      const sections = navItems.map(item => item.id);
-      const scrollPosition = window.scrollY + 100;
+    let frame = null;
 
-      sections.forEach(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const height = element.offsetHeight;
-          
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
-            setActiveSection(section);
-          }
-        }
-      });
+    const update = () => {
+      frame = null;
+      const y = window.scrollY;
+      setScrolled(y > 40);
+
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(100, (y / max) * 100) : 0);
+
+      // the section covering the point just below the header wins
+      const probe = y + 120;
+      let current = NAV_ITEMS[0].id;
+      for (const { id } of NAV_ITEMS) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (probe >= el.offsetTop) current = id;
+      }
+      setActiveSection(current);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => {
+      if (frame === null) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, []);
 
   const scrollTo = (id) => {
@@ -46,143 +67,136 @@ const Navbar = () => {
     setMobileOpen(false);
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   return (
     <>
       <AppBar
         position="fixed"
+        elevation={0}
         sx={{
-          backgroundColor: scrolled ? 'rgba(15, 23, 42, 0.95)' : 'rgba(15, 23, 42, 0.8)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
-          transition: 'all 0.3s ease',
-          boxShadow: scrolled ? '0 4px 20px rgba(0, 0, 0, 0.3)' : 'none'
+          zIndex: (t) => t.zIndex.drawer + 1,
+          backgroundColor: scrolled ? 'rgba(5, 7, 15, 0.82)' : 'rgba(5, 7, 15, 0.35)',
+          backdropFilter: 'blur(18px)',
+          borderBottom: `1px solid ${scrolled ? palette.borderSoft : 'transparent'}`,
+          transition: 'background-color .3s ease, border-color .3s ease',
         }}
       >
         <Toolbar sx={{ maxWidth: 1200, width: '100%', mx: 'auto', px: { xs: 2, md: 3 } }}>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            style={{ cursor: 'pointer' }}
-            onClick={() => scrollTo('home')}
-          >
+          <motion.div whileHover={{ scale: 1.03 }} style={{ cursor: 'pointer' }}>
             <Typography
-              variant="h5"
-              component="div"
-              sx={{
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                flexGrow: 1
-              }}
+              variant="h6"
+              onClick={() => scrollTo('home')}
+              sx={{ fontWeight: 750, letterSpacing: '-0.02em', ...accentText }}
             >
               Shubham Lokare
             </Typography>
           </motion.div>
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 'auto', gap: 1 }}>
-            {navItems.map((item) => (
-              <motion.div
-                key={item.id}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 'auto', gap: 0.5 }}>
+            {NAV_ITEMS.map((item) => {
+              const active = activeSection === item.id;
+              return (
                 <Button
+                  key={item.id}
                   onClick={() => scrollTo(item.id)}
                   sx={{
-                    color: activeSection === item.id ? 'primary.main' : 'white',
-                    fontWeight: 600,
-                    px: 2,
+                    position: 'relative',
+                    px: 1.75,
                     py: 1,
-                    borderRadius: 3,
-                    backgroundColor: activeSection === item.id ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
-                    border: activeSection === item.id ? '1px solid rgba(99, 102, 241, 0.3)' : '1px solid transparent',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                      border: '1px solid rgba(99, 102, 241, 0.3)'
-                    }
+                    fontSize: '.9rem',
+                    color: active ? palette.cyan : palette.textMuted,
+                    '&:hover': { color: palette.text, backgroundColor: 'rgba(34,211,238,.06)' },
                   }}
                 >
                   {item.label}
+                  {active && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      style={{
+                        position: 'absolute',
+                        left: 12,
+                        right: 12,
+                        bottom: 4,
+                        height: 2,
+                        borderRadius: 2,
+                        background: `linear-gradient(90deg, ${palette.cyan}, ${palette.violet})`,
+                      }}
+                    />
+                  )}
                 </Button>
-              </motion.div>
-            ))}
+              );
+            })}
           </Box>
 
           <IconButton
             color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ ml: 'auto', display: { md: 'none' } }}
+            aria-label={mobileOpen ? 'close menu' : 'open menu'}
+            onClick={() => setMobileOpen((v) => !v)}
+            sx={{ ml: 'auto', display: { md: 'none' }, color: palette.text }}
           >
-            <MenuIcon />
+            {mobileOpen ? <CloseIcon /> : <MenuIcon />}
           </IconButton>
         </Toolbar>
+
+        {/* reading progress */}
+        <LinearProgress
+          variant="determinate"
+          value={progress}
+          sx={{
+            height: 2,
+            overflow: 'hidden',
+            backgroundColor: 'transparent',
+            '& .MuiLinearProgress-bar': {
+              background: `linear-gradient(90deg, ${palette.cyan}, ${palette.violet}, ${palette.emerald})`,
+            },
+          }}
+        />
       </AppBar>
 
       <Drawer
-        variant="temporary"
         anchor="right"
         open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true
-        }}
+        onClose={() => setMobileOpen(false)}
+        ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: 'block', md: 'none' },
           '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
-            width: 250,
-            backgroundColor: 'background.paper'
-          }
+            width: 260,
+            backgroundColor: 'rgba(5, 7, 15, 0.96)',
+            backdropFilter: 'blur(20px)',
+            borderLeft: `1px solid ${palette.borderSoft}`,
+          },
         }}
       >
-        <Box sx={{ p: 2 }}>
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              mb: 2,
-              textAlign: 'center'
-            }}
-          >
+        <Box sx={{ p: 2, pt: 3 }}>
+          <Typography variant="h6" sx={{ mb: 3, textAlign: 'center', ...accentText }}>
             Shubham Lokare
           </Typography>
-          
-          <List>
-            {navItems.map((item) => (
-              <ListItem
-                key={item.id}
-                button
-                onClick={() => scrollTo(item.id)}
-                sx={{
-                  borderRadius: 2,
-                  mb: 1,
-                  backgroundColor: activeSection === item.id ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
-                  '&:hover': {
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)'
-                  }
-                }}
-              >
-                <ListItemText
-                  primary={item.label}
+          <List sx={{ p: 0 }}>
+            {NAV_ITEMS.map((item) => {
+              const active = activeSection === item.id;
+              return (
+                <ListItemButton
+                  key={item.id}
+                  onClick={() => scrollTo(item.id)}
                   sx={{
-                    '& .MuiListItemText-primary': {
-                      fontWeight: activeSection === item.id ? 700 : 500,
-                      color: activeSection === item.id ? 'primary.main' : 'text.primary'
-                    }
+                    borderRadius: 2,
+                    mb: 0.5,
+                    borderLeft: `2px solid ${active ? palette.cyan : 'transparent'}`,
+                    backgroundColor: active ? 'rgba(34,211,238,.08)' : 'transparent',
                   }}
-                />
-              </ListItem>
-            ))}
+                >
+                  <ListItemText
+                    primary={item.label}
+                    sx={{
+                      '& .MuiListItemText-primary': {
+                        fontWeight: active ? 700 : 500,
+                        color: active ? palette.cyan : palette.textMuted,
+                      },
+                    }}
+                  />
+                </ListItemButton>
+              );
+            })}
           </List>
         </Box>
       </Drawer>
